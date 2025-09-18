@@ -9,6 +9,10 @@ export default function ToDoList({ name }) {
     setTaskInput("");
   }
 
+  function removeTask(index) {
+    setTasks(tasks.filter((_, i) => i !== index));
+  }
+
   function handleInputChange(event) {
     setTaskInput(event.target.value);
   }
@@ -17,8 +21,11 @@ export default function ToDoList({ name }) {
     <>
       <h2>{name}</h2>
       <ul>
-        {tasks.map((task) => (
-          <li>{task}</li>
+        {tasks.map((task, index) => (
+          <li key={index}>
+            {task}
+            <button onClick={() => removeTask(index)}>X</button>
+          </li>
         ))}
       </ul>
       <input type="text" value={taskInput} onChange={handleInputChange} />
