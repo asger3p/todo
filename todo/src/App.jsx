@@ -4,8 +4,9 @@ import ToDoList from "./componenets/ToDoList";
 function App() {
   return (
     <>
-      <h1>Opportunities</h1>
-      <ToDoList name="Important and Urgent" />
+      <ToDoList name="Doing" />
+      <ToDoList name="Opportunities" />
+      <ToDoList name="For a rainy day" />
     </>
   );
 }

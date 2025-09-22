@@ -9,7 +9,7 @@ export default function ToDoList({ name }) {
     setTaskInput("");
   }
 
-  function removeTask(index) {
+  function completeTask(index) {
     setTasks(tasks.filter((_, i) => i !== index));
   }
 
@@ -24,7 +24,12 @@ export default function ToDoList({ name }) {
         {tasks.map((task, index) => (
           <li key={index}>
             {task}
-            <button onClick={() => removeTask(index)}>X</button>
+            <button
+              className="complete-task-button"
+              onClick={() => completeTask(index)}
+            >
+              ✓
+            </button>
           </li>
         ))}
       </ul>

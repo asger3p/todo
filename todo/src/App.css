@@ -4,3 +4,15 @@
   padding: 2rem;
   text-align: center;
 }
+
+.complete-task-button {
+  background-color: transparent;
+  color: #00cc12;
+  cursor: pointer;
+  font-size: 1.2em;
+  margin-left: 0.5em;
+}
+
+.complete-task-button:hover {
+  color: #00ff15;
+}
