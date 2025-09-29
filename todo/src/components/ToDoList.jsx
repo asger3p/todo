@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Title, Wrapper } from "./Title";
+import ToDoItemSC from "./ToDoItemSC";
 
 export default function ToDoList({ name }) {
   const [tasks, setTasks] = useState([]);
@@ -38,12 +39,7 @@ export default function ToDoList({ name }) {
       </Wrapper>
       <ul>
         {tasks.map((task, index) => (
-          <li
-            style={{
-              textDecoration: task.completed ? "line-through" : "none",
-            }}
-            key={index}
-          >
+          <ToDoItemSC key={index} completed={task.completed}>
             {task.text}
             <input
               type="checkbox"
@@ -56,7 +52,7 @@ export default function ToDoList({ name }) {
             >
               x
             </button>
-          </li>
+          </ToDoItemSC>
         ))}
       </ul>
       <input
