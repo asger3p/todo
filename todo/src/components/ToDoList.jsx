@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Title, Wrapper } from "./Title";
 import ToDoItemSC from "./ToDoItemSC";
+import uuid from "react-uuid";
 
 export default function ToDoList({ name }) {
   const [taskList, setTaskList] = useState([]);
@@ -19,19 +20,20 @@ export default function ToDoList({ name }) {
   }, [taskList]);
 
   useEffect(() => {
-    if (taskList.length > 0) {
-      localStorage.setItem(name, JSON.stringify(taskList));
-    }
+    localStorage.setItem(name, JSON.stringify(taskList));
   }, [taskList, name]);
 
   function handleAddTaskClick() {
-    var newList = [...taskList, { text: taskInput, completed: false }];
+    var newList = [
+      ...taskList,
+      { uuid: uuid(), text: taskInput, completed: false },
+    ];
     setTaskList(newList);
     setTaskInput("");
   }
 
   function handleRemoveClick(index) {
-    var newList = taskList.filter((_, i) => i !== index);
+    var newList = taskList.filter((task) => task.uuid !== taskList[index].uuid);
     setTaskList(newList);
   }
 
@@ -56,8 +58,8 @@ export default function ToDoList({ name }) {
     <div className="todo-list">
       <Wrapper>
         <Title>{name}</Title>
+        <p>Tasks: {taskCount}</p>
       </Wrapper>
-      <p>Tasks: {taskCount}</p>
       <ul>
         {taskList.map((task, index) => (
           <ToDoItemSC key={index} completed={task.completed}>
