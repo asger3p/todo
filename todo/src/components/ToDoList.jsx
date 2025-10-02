@@ -5,6 +5,7 @@ import ToDoItemSC from "./ToDoItemSC";
 export default function ToDoList({ name }) {
   const [taskList, setTaskList] = useState([]);
   const [taskInput, setTaskInput] = useState("");
+  const [taskCount, setTaskCount] = useState(0);
 
   useEffect(() => {
     var savedTasks = localStorage.getItem(name);
@@ -12,6 +13,10 @@ export default function ToDoList({ name }) {
       setTaskList(JSON.parse(savedTasks));
     }
   }, [name]);
+
+  useEffect(() => {
+    setTaskCount(taskList.length);
+  }, [taskList]);
 
   useEffect(() => {
     if (taskList.length > 0) {
@@ -52,6 +57,7 @@ export default function ToDoList({ name }) {
       <Wrapper>
         <Title>{name}</Title>
       </Wrapper>
+      <p>Tasks: {taskCount}</p>
       <ul>
         {taskList.map((task, index) => (
           <ToDoItemSC key={index} completed={task.completed}>
