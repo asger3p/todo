@@ -1,28 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Title, Wrapper } from "./Title";
 import ToDoItemSC from "./ToDoItemSC";
 
 export default function ToDoList({ name }) {
-  const data = localStorage.getItem(name);
-
-  const [tasks, setTasks] = useState(data ? JSON.parse(data) : []);
+  const [taskList, setTaskList] = useState([]);
   const [taskInput, setTaskInput] = useState("");
 
+  useEffect(() => {
+    var savedTasks = localStorage.getItem(name);
+    if (savedTasks) {
+      setTaskList(JSON.parse(savedTasks));
+    }
+  }, [name]);
+
+  useEffect(() => {
+    if (taskList.length > 0) {
+      localStorage.setItem(name, JSON.stringify(taskList));
+    }
+  }, [taskList, name]);
+
   function handleAddTaskClick() {
-    var newList = [...tasks, { text: taskInput, completed: false }];
-    setTasks(newList);
-    saveTasksToLocalStorage(newList);
+    var newList = [...taskList, { text: taskInput, completed: false }];
+    setTaskList(newList);
     setTaskInput("");
   }
 
   function handleRemoveClick(index) {
-    var newList = tasks.filter((_, i) => i !== index);
-    setTasks(newList);
-    saveTasksToLocalStorage(newList);
-  }
-
-  function saveTasksToLocalStorage(newList) {
-    localStorage.setItem(name, JSON.stringify(newList));
+    var newList = taskList.filter((_, i) => i !== index);
+    setTaskList(newList);
   }
 
   function handleKeyDown(event) {
@@ -36,11 +41,10 @@ export default function ToDoList({ name }) {
   }
 
   function toggleTaskCompletion(index) {
-    var newList = tasks.map((task, i) =>
+    var newList = taskList.map((task, i) =>
       i === index ? { ...task, completed: !task.completed } : task
     );
-    setTasks(newList);
-    saveTasksToLocalStorage(newList);
+    setTaskList(newList);
   }
 
   return (
@@ -49,7 +53,7 @@ export default function ToDoList({ name }) {
         <Title>{name}</Title>
       </Wrapper>
       <ul>
-        {tasks.map((task, index) => (
+        {taskList.map((task, index) => (
           <ToDoItemSC key={index} completed={task.completed}>
             {task.text}
             <input
