@@ -6,18 +6,18 @@ export default function ToDoList({ name }) {
   const [tasks, setTasks] = useState([]);
   const [taskInput, setTaskInput] = useState("");
 
-  function addTask() {
+  function handleAddTaskClick() {
     setTasks([...tasks, { text: taskInput, completed: false }]);
     setTaskInput("");
   }
 
   function handleKeyDown(event) {
     if (event.key === "Enter") {
-      addTask();
+      handleAddTaskClick();
     }
   }
 
-  function removeTask(index) {
+  function handleRemoveClick(index) {
     setTasks(tasks.filter((_, i) => i !== index));
   }
 
@@ -48,7 +48,7 @@ export default function ToDoList({ name }) {
             />
             <button
               className="remove-task-button"
-              onClick={() => removeTask(index)}
+              onClick={() => handleRemoveClick(index)}
             >
               x
             </button>
@@ -63,7 +63,7 @@ export default function ToDoList({ name }) {
         onKeyDown={handleKeyDown}
       />
       <br />
-      <button onClick={addTask}>Add Task</button>
+      <button onClick={handleAddTaskClick}>Add Task</button>
     </div>
   );
 }
