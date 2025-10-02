@@ -3,12 +3,26 @@ import { Title, Wrapper } from "./Title";
 import ToDoItemSC from "./ToDoItemSC";
 
 export default function ToDoList({ name }) {
-  const [tasks, setTasks] = useState([]);
+  const data = localStorage.getItem(name);
+
+  const [tasks, setTasks] = useState(data ? JSON.parse(data) : []);
   const [taskInput, setTaskInput] = useState("");
 
   function handleAddTaskClick() {
-    setTasks([...tasks, { text: taskInput, completed: false }]);
+    var newList = [...tasks, { text: taskInput, completed: false }];
+    setTasks(newList);
+    saveTasksToLocalStorage(newList);
     setTaskInput("");
+  }
+
+  function handleRemoveClick(index) {
+    var newList = tasks.filter((_, i) => i !== index);
+    setTasks(newList);
+    saveTasksToLocalStorage(newList);
+  }
+
+  function saveTasksToLocalStorage(newList) {
+    localStorage.setItem(name, JSON.stringify(newList));
   }
 
   function handleKeyDown(event) {
@@ -17,19 +31,16 @@ export default function ToDoList({ name }) {
     }
   }
 
-  function handleRemoveClick(index) {
-    setTasks(tasks.filter((_, i) => i !== index));
-  }
-
   function handleInputChange(event) {
     setTaskInput(event.target.value);
   }
 
   function toggleTaskCompletion(index) {
-    const updatedTasks = tasks.map((task, i) =>
+    var newList = tasks.map((task, i) =>
       i === index ? { ...task, completed: !task.completed } : task
     );
-    setTasks(updatedTasks);
+    setTasks(newList);
+    saveTasksToLocalStorage(newList);
   }
 
   return (
