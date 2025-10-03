@@ -1,5 +1,3 @@
-// ToDoItem.jsx
-import React from "react";
 import ToDoItemSC from "./ToDoItemSC";
 
 export default function ToDoItem({ task, onToggle, onRemove }) {

@@ -5,18 +5,24 @@ import ToDoItem from "./ToDoItem";
 
 export default function ToDoList({ name }) {
   const [taskList, setTaskList] = useState([]);
+  const [completedTasksList, setCompletedTasksList] = useState([]);
   const [taskInput, setTaskInput] = useState("");
 
   useEffect(() => {
-    var savedTasks = localStorage.getItem(name);
-    if (savedTasks) {
-      setTaskList(JSON.parse(savedTasks));
+    const saved = localStorage.getItem(name);
+    if (saved) {
+      const { active = [], completed = [] } = JSON.parse(saved);
+      setTaskList(active);
+      setCompletedTasksList(completed);
     }
   }, [name]);
 
   useEffect(() => {
-    localStorage.setItem(name, JSON.stringify(taskList));
-  }, [taskList, name]);
+    localStorage.setItem(
+      name,
+      JSON.stringify({ active: taskList, completed: completedTasksList })
+    );
+  }, [taskList, completedTasksList, name]);
 
   function handleAddTaskClick() {
     var newList = [
@@ -25,11 +31,6 @@ export default function ToDoList({ name }) {
     ];
     setTaskList(newList);
     setTaskInput("");
-  }
-
-  function handleRemoveClick(index) {
-    var newList = taskList.filter((task) => task.uuid !== taskList[index].uuid);
-    setTaskList(newList);
   }
 
   function handleKeyDown(event) {
@@ -42,11 +43,19 @@ export default function ToDoList({ name }) {
     setTaskInput(event.target.value);
   }
 
-  function toggleTaskCompletion(index) {
-    var newList = taskList.map((task, i) =>
-      i === index ? { ...task, completed: !task.completed } : task
-    );
-    setTaskList(newList);
+  function toggleTaskCompletion(task, fromCompleted = false) {
+    if (fromCompleted) {
+      setCompletedTasksList(
+        completedTasksList.filter((t) => t.uuid !== task.uuid)
+      );
+      setTaskList([...taskList, { ...task, completed: false }]);
+    } else {
+      setTaskList(taskList.filter((t) => t.uuid !== task.uuid));
+      setCompletedTasksList([
+        ...completedTasksList,
+        { ...task, completed: true },
+      ]);
+    }
   }
 
   return (
@@ -57,12 +66,30 @@ export default function ToDoList({ name }) {
       </Wrapper>
 
       <ul>
-        {taskList.map((task, index) => (
+        {taskList.map((task) => (
           <ToDoItem
             key={task.uuid}
             task={task}
-            onToggle={() => toggleTaskCompletion(index)}
-            onRemove={() => handleRemoveClick(index)}
+            onToggle={() => toggleTaskCompletion(task)}
+            onRemove={() =>
+              setTaskList(taskList.filter((t) => t.uuid !== task.uuid))
+            }
+          />
+        ))}
+      </ul>
+
+      <h3>Completed</h3>
+      <ul>
+        {completedTasksList.map((task) => (
+          <ToDoItem
+            key={task.uuid}
+            task={task}
+            onToggle={() => toggleTaskCompletion(task, true)}
+            onRemove={() =>
+              setCompletedTasksList(
+                completedTasksList.filter((t) => t.uuid !== task.uuid)
+              )
+            }
           />
         ))}
       </ul>

@@ -6,7 +6,7 @@ function App() {
     <>
       <ToDoList name="Doing" />
       <ToDoList name="Opportunities" />
-      <ToDoList name="For a rainy day" />
+      <ToDoList name="Completed" />
     </>
   );
 }
