@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Title, Wrapper } from "./Title";
-import ToDoItemSC from "./ToDoItemSC";
 import uuid from "react-uuid";
+import ToDoItem from "./ToDoItem";
 
 export default function ToDoList({ name }) {
   const [taskList, setTaskList] = useState([]);
@@ -62,22 +62,15 @@ export default function ToDoList({ name }) {
       </Wrapper>
       <ul>
         {taskList.map((task, index) => (
-          <ToDoItemSC key={index} completed={task.completed}>
-            {task.text}
-            <input
-              type="checkbox"
-              checked={task.completed}
-              onChange={() => toggleTaskCompletion(index)}
-            />
-            <button
-              className="remove-task-button"
-              onClick={() => handleRemoveClick(index)}
-            >
-              x
-            </button>
-          </ToDoItemSC>
+          <ToDoItem
+            key={task.uuid}
+            task={task}
+            onToggle={() => toggleTaskCompletion(index)}
+            onRemove={() => handleRemoveClick(index)}
+          />
         ))}
       </ul>
+
       <input
         type="text"
         value={taskInput}
