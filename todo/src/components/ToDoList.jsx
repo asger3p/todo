@@ -6,7 +6,6 @@ import ToDoItem from "./ToDoItem";
 export default function ToDoList({ name }) {
   const [taskList, setTaskList] = useState([]);
   const [taskInput, setTaskInput] = useState("");
-  const [taskCount, setTaskCount] = useState(0);
 
   useEffect(() => {
     var savedTasks = localStorage.getItem(name);
@@ -14,10 +13,6 @@ export default function ToDoList({ name }) {
       setTaskList(JSON.parse(savedTasks));
     }
   }, [name]);
-
-  useEffect(() => {
-    setTaskCount(taskList.length);
-  }, [taskList]);
 
   useEffect(() => {
     localStorage.setItem(name, JSON.stringify(taskList));
@@ -58,8 +53,9 @@ export default function ToDoList({ name }) {
     <div className="todo-list">
       <Wrapper>
         <Title>{name}</Title>
-        <p>Tasks: {taskCount}</p>
+        <p>Tasks: {taskList.length}</p>
       </Wrapper>
+
       <ul>
         {taskList.map((task, index) => (
           <ToDoItem
