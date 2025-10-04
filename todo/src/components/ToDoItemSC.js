@@ -4,10 +4,10 @@ const ToDoItemSC = styled.li`
   list-style: none;
   font-size: 1rem;
   font-weight: 400;
-  margin: 0.5rem 0;
+  margin: 0.3rem 0;
+  padding: 0.5rem 0.8rem;
   border: 1px solid #3700ff;
   border-radius: 5px;
-  padding: 0.5rem 1rem;
   background-color: ${(props) => (props.$completed ? "#083153" : "#0d4a7c")};
   color: ${(props) => (props.$completed ? "#7f8c8d" : "#ffffff")};
   text-decoration: ${(props) => (props.$completed ? "line-through" : "none")};
@@ -16,6 +16,9 @@ const ToDoItemSC = styled.li`
   align-items: center;
   justify-content: space-between;
   position: relative;
+
+  margin-left: auto;
+  margin-right: auto;
 
   .task-text {
     flex: 1;

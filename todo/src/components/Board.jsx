@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import uuid from "react-uuid";
 import ToDoList from "./ToDoList";
+import { BoardContainer, ListsContainer } from "./BoardSC";
 
 export default function Board() {
   const [lists, setLists] = useState(() => {
@@ -41,7 +42,7 @@ export default function Board() {
   }
 
   return (
-    <div className="board">
+    <BoardContainer>
       <input
         type="text"
         value={listInput}
@@ -52,7 +53,7 @@ export default function Board() {
       <br />
       <button onClick={handleAddListClick}>Add List</button>
 
-      <div className="lists-container">
+      <ListsContainer>
         {lists.map((list) => (
           <ToDoList
             key={list.id}
@@ -63,7 +64,7 @@ export default function Board() {
             onRemoveListClick={() => handleRemoveListClick(list.id)}
           />
         ))}
-      </div>
-    </div>
+      </ListsContainer>
+    </BoardContainer>
   );
 }
