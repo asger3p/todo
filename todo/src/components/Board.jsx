@@ -35,6 +35,11 @@ export default function Board() {
     );
   }
 
+  function handleRemoveListClick(listId) {
+    setLists((prevLists) => prevLists.filter((l) => l.id !== listId));
+    localStorage.removeItem(listId);
+  }
+
   return (
     <div className="board">
       <h2>To-Do Lists</h2>
@@ -56,6 +61,7 @@ export default function Board() {
             name={list.name}
             tasks={list.tasks}
             onTasksChange={(newTasks) => handleTasksChange(list.id, newTasks)}
+            onRemoveListClick={() => handleRemoveListClick(list.id)}
           />
         ))}
       </div>

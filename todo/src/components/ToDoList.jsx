@@ -3,7 +3,7 @@ import { Title, Wrapper } from "./Title";
 import uuid from "react-uuid";
 import ToDoItem from "./ToDoItem";
 
-export default function ToDoList({ id, name }) {
+export default function ToDoList({ id, name, onRemoveListClick }) {
   const [tasks, setTasks] = useState(() => {
     const saved = localStorage.getItem(id);
     return saved ? JSON.parse(saved) : { active: [], completed: [] };
@@ -68,6 +68,7 @@ export default function ToDoList({ id, name }) {
       <Wrapper>
         <Title>{name}</Title>
         <p>Tasks: {tasks.active.length}</p>
+        <button onClick={onRemoveListClick}>Remove List</button>
       </Wrapper>
 
       <ul>
