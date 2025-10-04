@@ -1,12 +1,10 @@
 import "./App.css";
-import ToDoList from "./components/ToDoList";
+import Board from "./components/Board";
 
 function App() {
   return (
     <>
-      <ToDoList name="Doing" />
-      <ToDoList name="Opportunities" />
-      <ToDoList name="Completed" />
+      <Board />
     </>
   );
 }

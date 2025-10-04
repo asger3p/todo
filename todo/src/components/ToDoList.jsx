@@ -3,40 +3,32 @@ import { Title, Wrapper } from "./Title";
 import uuid from "react-uuid";
 import ToDoItem from "./ToDoItem";
 
-export default function ToDoList({ name }) {
-  const [taskList, setTaskList] = useState([]);
-  const [completedTasksList, setCompletedTasksList] = useState([]);
+export default function ToDoList({ id, name }) {
+  const [tasks, setTasks] = useState(() => {
+    const saved = localStorage.getItem(id);
+    return saved ? JSON.parse(saved) : { active: [], completed: [] };
+  });
+
   const [taskInput, setTaskInput] = useState("");
 
   useEffect(() => {
-    const saved = localStorage.getItem(name);
-    if (saved) {
-      const { active = [], completed = [] } = JSON.parse(saved);
-      setTaskList(active);
-      setCompletedTasksList(completed);
-    }
-  }, [name]);
-
-  useEffect(() => {
-    localStorage.setItem(
-      name,
-      JSON.stringify({ active: taskList, completed: completedTasksList })
-    );
-  }, [taskList, completedTasksList, name]);
+    localStorage.setItem(id, JSON.stringify(tasks));
+  }, [tasks, id]);
 
   function handleAddTaskClick() {
-    var newList = [
-      ...taskList,
-      { uuid: uuid(), text: taskInput, completed: false },
-    ];
-    setTaskList(newList);
+    if (!taskInput.trim()) return;
+    setTasks({
+      ...tasks,
+      active: [
+        ...tasks.active,
+        { uuid: uuid(), text: taskInput, completed: false },
+      ],
+    });
     setTaskInput("");
   }
 
   function handleKeyDown(event) {
-    if (event.key === "Enter") {
-      handleAddTaskClick();
-    }
+    if (event.key === "Enter") handleAddTaskClick();
   }
 
   function handleInputChange(event) {
@@ -45,16 +37,29 @@ export default function ToDoList({ name }) {
 
   function toggleTaskCompletion(task, fromCompleted = false) {
     if (fromCompleted) {
-      setCompletedTasksList(
-        completedTasksList.filter((t) => t.uuid !== task.uuid)
-      );
-      setTaskList([...taskList, { ...task, completed: false }]);
+      setTasks({
+        active: [...tasks.active, { ...task, completed: false }],
+        completed: tasks.completed.filter((t) => t.uuid !== task.uuid),
+      });
     } else {
-      setTaskList(taskList.filter((t) => t.uuid !== task.uuid));
-      setCompletedTasksList([
-        ...completedTasksList,
-        { ...task, completed: true },
-      ]);
+      setTasks({
+        active: tasks.active.filter((t) => t.uuid !== task.uuid),
+        completed: [...tasks.completed, { ...task, completed: true }],
+      });
+    }
+  }
+
+  function removeTask(task, fromCompleted = false) {
+    if (fromCompleted) {
+      setTasks({
+        ...tasks,
+        completed: tasks.completed.filter((t) => t.uuid !== task.uuid),
+      });
+    } else {
+      setTasks({
+        ...tasks,
+        active: tasks.active.filter((t) => t.uuid !== task.uuid),
+      });
     }
   }
 
@@ -62,34 +67,28 @@ export default function ToDoList({ name }) {
     <div className="todo-list">
       <Wrapper>
         <Title>{name}</Title>
-        <p>Tasks: {taskList.length}</p>
+        <p>Tasks: {tasks.active.length}</p>
       </Wrapper>
 
       <ul>
-        {taskList.map((task) => (
+        {tasks.active.map((task) => (
           <ToDoItem
             key={task.uuid}
             task={task}
             onToggle={() => toggleTaskCompletion(task)}
-            onRemove={() =>
-              setTaskList(taskList.filter((t) => t.uuid !== task.uuid))
-            }
+            onRemove={() => removeTask(task)}
           />
         ))}
       </ul>
 
       <h3>Completed</h3>
       <ul>
-        {completedTasksList.map((task) => (
+        {tasks.completed.map((task) => (
           <ToDoItem
             key={task.uuid}
             task={task}
             onToggle={() => toggleTaskCompletion(task, true)}
-            onRemove={() =>
-              setCompletedTasksList(
-                completedTasksList.filter((t) => t.uuid !== task.uuid)
-              )
-            }
+            onRemove={() => removeTask(task, true)}
           />
         ))}
       </ul>
