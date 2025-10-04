@@ -4,23 +4,3 @@
   padding: 2rem;
   text-align: center;
 }
-
-.todo-list {
-  border: 1px solid #1709d6;
-  border-radius: 8px;
-  padding: 1rem;
-  margin: 1rem 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.remove-task-button {
-  background-color: transparent;
-  color: #a70303;
-  cursor: pointer;
-  font-size: 1.2em;
-  margin-left: 0.5em;
-}
-
-.remove-task-button:hover {
-  color: #ff0000;
-}

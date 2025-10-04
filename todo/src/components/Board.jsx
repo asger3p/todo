@@ -42,7 +42,6 @@ export default function Board() {
 
   return (
     <div className="board">
-      <h2>To-Do Lists</h2>
       <input
         type="text"
         value={listInput}

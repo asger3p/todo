@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Title, Wrapper } from "./Title";
 import uuid from "react-uuid";
 import ToDoItem from "./ToDoItem";
+import ToDoListSC from "./ToDoListSC";
 
 export default function ToDoList({ id, name, onRemoveListClick }) {
   const [tasks, setTasks] = useState(() => {
@@ -64,11 +65,13 @@ export default function ToDoList({ id, name, onRemoveListClick }) {
   }
 
   return (
-    <div className="todo-list">
+    <ToDoListSC>
       <Wrapper>
         <Title>{name}</Title>
         <p>Tasks: {tasks.active.length}</p>
-        <button onClick={onRemoveListClick}>Remove List</button>
+        <button className="remove-list-button" onClick={onRemoveListClick}>
+          x
+        </button>
       </Wrapper>
 
       <ul>
@@ -82,7 +85,6 @@ export default function ToDoList({ id, name, onRemoveListClick }) {
         ))}
       </ul>
 
-      <h3>Completed</h3>
       <ul>
         {tasks.completed.map((task) => (
           <ToDoItem
@@ -103,6 +105,6 @@ export default function ToDoList({ id, name, onRemoveListClick }) {
       />
       <br />
       <button onClick={handleAddTaskClick}>Add Task</button>
-    </div>
+    </ToDoListSC>
   );
 }
