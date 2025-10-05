@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Title, Wrapper } from "./Title";
 import uuid from "react-uuid";
-import ToDoItem from "./ToDoItem";
+import ToDoItem from "../ToDoItem/ToDoItem";
 import ToDoListSC from "./ToDoListSC";
-import { InputSC } from "./InputSC";
-import { ButtonSC } from "./ButtonSC";
+import { InputSC } from "../common/InputSC";
+import { ButtonSC } from "../common/ButtonSC";
 
 export default function ToDoList({
   name,

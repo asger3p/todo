@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import uuid from "react-uuid";
-import ToDoList from "./ToDoList";
+import ToDoList from "../ToDoList/ToDoList";
 import { AddListSection, BoardContainer, ListsContainer } from "./BoardSC";
-import { InputSC } from "./InputSC";
-import { ButtonSC } from "./ButtonSC";
+import { InputSC } from "../common/InputSC";
+import { ButtonSC } from "../common/ButtonSC";
 
 export default function Board() {
   const [lists, setLists] = useState(() => {

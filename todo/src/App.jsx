@@ -1,8 +1,8 @@
 import "./App.css";
-import Board from "./components/Board";
-import { theme } from "./Theme";
+import Board from "./components/Board/Board";
+import { theme } from "./theme/Theme";
 import { ThemeProvider } from "styled-components";
-import { GlobalStyle } from "./GlobalStyle";
+import { GlobalStyle } from "./theme/GlobalStyle";
 
 function App() {
   return (
