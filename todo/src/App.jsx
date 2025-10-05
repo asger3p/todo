@@ -1,4 +1,3 @@
-import "./App.css";
 import Board from "./components/Board/Board";
 import { theme } from "./theme/Theme";
 import { ThemeProvider } from "styled-components";
