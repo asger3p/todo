@@ -87,7 +87,7 @@ export default function ToDoList({
         onKeyDown={(e) => e.key === "Enter" && handleAddTaskClick()}
         placeholder="Enter task"
       />
-      <ButtonSC onClick={handleAddTaskClick}>Add Task</ButtonSC>
+      <ButtonSC onClick={handleAddTaskClick}>AddTask</ButtonSC>
     </ToDoListSC>
   );
 }

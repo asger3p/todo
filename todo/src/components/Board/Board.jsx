@@ -45,7 +45,7 @@ export default function Board() {
           onChange={(e) => setListInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleAddListClick()}
         />
-        <ButtonSC onClick={handleAddListClick}>Add List</ButtonSC>
+        <ButtonSC onClick={handleAddListClick}>AddList</ButtonSC>
       </AddListSection>
 
       <ListsContainer>

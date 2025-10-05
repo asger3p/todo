@@ -16,4 +16,7 @@ export const InputSC = styled.input`
     outline: none;
     border-color: ${(props) => props.theme.borders.focused.split(" ")[2]};
   }
+  &:hover {
+    border-color: ${(props) => props.theme.borders.hover.split(" ")[2]};
+  }
 `;

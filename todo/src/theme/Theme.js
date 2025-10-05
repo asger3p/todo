@@ -27,6 +27,7 @@ export const theme = {
   borders: {
     default: "2px solid #006d31ff",
     focused: "2px solid #03eb6cff",
+    hover: "2px solid #03eb6cff",
   },
   margins: {
     small: "0.5rem",
