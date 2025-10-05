@@ -1,29 +1,16 @@
-import React, { useState } from "react";
 import { Row, Input, Button } from "./AddRowSC";
 
-export default function AddRow({ placeholder, onAdd }) {
-  const [value, setValue] = useState("");
-
-  const handleAdd = () => {
-    if (!value.trim()) return;
-    onAdd(value);
-    setValue("");
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") handleAdd();
-  };
-
+export default function AddRow({ value, onChange, onAdd, placeholder }) {
   return (
     <Row>
       <Input
         type="text"
         value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && onAdd()}
         placeholder={placeholder}
-        onChange={(e) => setValue(e.target.value)}
-        onKeyDown={handleKeyDown}
       />
-      <Button onClick={handleAdd}>add_circle</Button>
+      <Button onClick={onAdd}>add_circle</Button>
     </Row>
   );
 }

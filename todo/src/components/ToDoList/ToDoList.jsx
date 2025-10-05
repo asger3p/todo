@@ -13,16 +13,16 @@ export default function ToDoList({
 }) {
   const [taskInput, setTaskInput] = useState("");
 
-  function handleAddTaskClick() {
+  function handleAddTaskClick(taskText) {
+    if (!taskText.trim()) return;
     const newTasks = {
       ...tasks,
       active: [
         ...tasks.active,
-        { uuid: uuid(), text: taskInput, completed: false },
+        { uuid: uuid(), text: taskText, completed: false },
       ],
     };
     onTasksChange(newTasks);
-    setTaskInput("");
   }
 
   function toggleTaskCompletion(task, fromCompleted = false) {
@@ -79,7 +79,15 @@ export default function ToDoList({
         ))}
       </ul>
 
-      <AddRow placeholder="Enter task" onAdd={handleAddTaskClick} />
+      <AddRow
+        placeholder="Enter task"
+        value={taskInput}
+        onChange={setTaskInput}
+        onAdd={() => {
+          handleAddTaskClick(taskInput);
+          setTaskInput("");
+        }}
+      />
     </ToDoListSC>
   );
 }
