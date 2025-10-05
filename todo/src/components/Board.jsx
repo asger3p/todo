@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import uuid from "react-uuid";
 import ToDoList from "./ToDoList";
 import { BoardContainer, ListsContainer } from "./BoardSC";
@@ -15,30 +15,22 @@ export default function Board() {
   }, [lists]);
 
   function handleAddListClick() {
-    const newLists = [...lists, { id: uuid(), name: listInput, tasks: [] }];
-    setLists(newLists);
+    if (!listInput.trim()) return;
+    setLists([
+      ...lists,
+      { id: uuid(), name: listInput, tasks: { active: [], completed: [] } },
+    ]);
     setListInput("");
   }
 
-  function handleKeyDown(event) {
-    if (event.key === "Enter") {
-      handleAddListClick();
-    }
-  }
-
-  function handleInputChange(event) {
-    setListInput(event.target.value);
+  function handleRemoveListClick(listId) {
+    setLists((prev) => prev.filter((l) => l.id !== listId));
   }
 
   function handleTasksChange(listId, newTasks) {
-    setLists((prevLists) =>
-      prevLists.map((l) => (l.id === listId ? { ...l, tasks: newTasks } : l))
+    setLists((prev) =>
+      prev.map((l) => (l.id === listId ? { ...l, tasks: newTasks } : l))
     );
-  }
-
-  function handleRemoveListClick(listId) {
-    setLists((prevLists) => prevLists.filter((l) => l.id !== listId));
-    localStorage.removeItem(listId);
   }
 
   return (
@@ -47,10 +39,9 @@ export default function Board() {
         type="text"
         value={listInput}
         placeholder="New list name"
-        onChange={handleInputChange}
-        onKeyDown={handleKeyDown}
+        onChange={(e) => setListInput(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && handleAddListClick()}
       />
-      <br />
       <button onClick={handleAddListClick}>Add List</button>
 
       <ListsContainer>
