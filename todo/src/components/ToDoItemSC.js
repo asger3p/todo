@@ -2,14 +2,20 @@ import styled from "styled-components";
 
 const ToDoItemSC = styled.li`
   list-style: none;
-  font-size: 1rem;
+  font-family: ${(props) => props.theme.fonts.main};
+  font-size: ${(props) => props.theme.fontSizes.medium};
   font-weight: 400;
-  margin: 0.3rem 0;
+  margin: ${(props) => props.theme.spacing.small} 0;
   padding: 0.5rem 0.8rem;
-  border: 1px solid #3700ff;
-  border-radius: 5px;
-  background-color: ${(props) => (props.$completed ? "#083153" : "#0d4a7c")};
-  color: ${(props) => (props.$completed ? "#7f8c8d" : "#ffffff")};
+  border-radius: ${(props) => props.theme.borderRadius};
+  background-color: ${(props) =>
+    props.$completed
+      ? props.theme.colors.completedTask
+      : props.theme.colors.secondary};
+  color: ${(props) =>
+    props.$completed
+      ? props.theme.colors.completedTaskText
+      : props.theme.colors.text};
   text-decoration: ${(props) => (props.$completed ? "line-through" : "none")};
 
   display: flex;
@@ -25,7 +31,7 @@ const ToDoItemSC = styled.li`
   }
 
   .checkbox {
-    margin-left: 1rem;
+    margin-left: ${(props) => props.theme.spacing.medium};
     transform: scale(1.2);
     cursor: pointer;
   }
@@ -36,8 +42,8 @@ const ToDoItemSC = styled.li`
     left: 2px;
     background: none;
     border: none;
-    color: #696969ff;
-    font-size: 0.7rem;
+    color: ${(props) => props.theme.colors.buttonRemove};
+    font-size: ${(props) => props.theme.fontSizes.small};
     cursor: pointer;
     padding: 2px 4px;
     line-height: 1;

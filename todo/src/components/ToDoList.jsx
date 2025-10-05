@@ -3,6 +3,8 @@ import { Title, Wrapper } from "./Title";
 import uuid from "react-uuid";
 import ToDoItem from "./ToDoItem";
 import ToDoListSC from "./ToDoListSC";
+import { InputSC } from "./InputSC";
+import { ButtonSC } from "./ButtonSC";
 
 export default function ToDoList({
   name,
@@ -51,7 +53,6 @@ export default function ToDoList({
     <ToDoListSC>
       <Wrapper>
         <Title>{name}</Title>
-        <p>Tasks: {tasks.active.length}</p>
         <button className="remove-list-button" onClick={onRemoveListClick}>
           x
         </button>
@@ -79,14 +80,14 @@ export default function ToDoList({
         ))}
       </ul>
 
-      <input
+      <InputSC
         type="text"
         value={taskInput}
         onChange={(e) => setTaskInput(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && handleAddTaskClick()}
         placeholder="Enter task"
       />
-      <button onClick={handleAddTaskClick}>Add Task</button>
+      <ButtonSC onClick={handleAddTaskClick}>Add Task</ButtonSC>
     </ToDoListSC>
   );
 }

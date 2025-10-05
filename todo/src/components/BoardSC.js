@@ -15,23 +15,6 @@ export const AddListSection = styled.div`
   align-items: center;
   justify-content: center;
   margin-bottom: 2rem;
-
-  input {
-    padding: 0.4rem 0.6rem;
-    border-radius: 4px;
-    border: 1px solid #ff7700;
-    background: #1b262c;
-    color: white;
-  }
-
-  button {
-    background-color: #ff7700;
-    color: #fff;
-    border: none;
-    padding: 0.4rem 0.8rem;
-    border-radius: 4px;
-    cursor: pointer;
-  }
 `;
 
 export const ListsContainer = styled.div`

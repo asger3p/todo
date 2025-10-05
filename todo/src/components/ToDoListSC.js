@@ -4,9 +4,8 @@ const ToDoListSC = styled.div`
   list-style: none;
   padding: 0.5rem;
   margin: 0;
-  border: 2px solid #ff7700ff;
-  border-radius: 8px;
-  background-color: #1b262cff;
+  border-radius: ${(props) => props.theme.borderRadius};
+  background-color: ${(props) => props.theme.colors.listBackground};
   position: relative;
 
   .remove-list-button {
@@ -15,7 +14,7 @@ const ToDoListSC = styled.div`
     left: 4px;
     background: none;
     border: none;
-    color: #ff4d4d;
+    color: ${(props) => props.theme.colors.buttonRemove};
     font-size: 0.7rem;
     cursor: pointer;
     padding: 2px 4px;
