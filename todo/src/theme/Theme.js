@@ -2,6 +2,7 @@ export const theme = {
   colors: {
     primary: "#006d31ff",
     secondary: "#3ea063ff",
+    buttonHover: "#03eb6cff",
     accent: "#00bcd4",
     listBackground: "#0000004d",
     completedTask: "#2c714686",

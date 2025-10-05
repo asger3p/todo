@@ -3,8 +3,7 @@ import { Title, Wrapper } from "./Title";
 import uuid from "react-uuid";
 import ToDoItem from "../ToDoItem/ToDoItem";
 import ToDoListSC from "./ToDoListSC";
-import { InputSC } from "../common/InputSC";
-import { ButtonSC } from "../common/ButtonSC";
+import AddRow from "../AddRow/AddRow";
 
 export default function ToDoList({
   name,
@@ -80,14 +79,7 @@ export default function ToDoList({
         ))}
       </ul>
 
-      <InputSC
-        type="text"
-        value={taskInput}
-        onChange={(e) => setTaskInput(e.target.value)}
-        onKeyDown={(e) => e.key === "Enter" && handleAddTaskClick()}
-        placeholder="Enter task"
-      />
-      <ButtonSC onClick={handleAddTaskClick}>AddTask</ButtonSC>
+      <AddRow placeholder="Enter task" onAdd={handleAddTaskClick} />
     </ToDoListSC>
   );
 }

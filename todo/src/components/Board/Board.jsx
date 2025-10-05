@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import uuid from "react-uuid";
 import ToDoList from "../ToDoList/ToDoList";
 import { AddListSection, BoardContainer, ListsContainer } from "./BoardSC";
-import { InputSC } from "../common/InputSC";
-import { ButtonSC } from "../common/ButtonSC";
+import AddRow from "../AddRow/AddRow";
 
 export default function Board() {
   const [lists, setLists] = useState(() => {
@@ -38,14 +37,7 @@ export default function Board() {
   return (
     <BoardContainer>
       <AddListSection>
-        <InputSC
-          type="text"
-          value={listInput}
-          placeholder="New list name"
-          onChange={(e) => setListInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleAddListClick()}
-        />
-        <ButtonSC onClick={handleAddListClick}>AddList</ButtonSC>
+        <AddRow placeholder="New list name" onAdd={handleAddListClick} />
       </AddListSection>
 
       <ListsContainer>
