@@ -34,6 +34,7 @@ const ToDoItemSC = styled.li`
     margin-left: ${(props) => props.theme.spacing.medium};
     transform: scale(1.2);
     cursor: pointer;
+    accent-color: ${(props) => props.theme.colors.primary};
   }
 
   button.remove-task-button {
