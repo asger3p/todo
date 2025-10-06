@@ -12,9 +12,9 @@ export const BoardContainer = styled.div`
 export const AddListSection = styled.div`
   display: flex;
   gap: 0.5rem;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 2rem;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: 100%;
 `;
 
 export const ListsContainer = styled.div`
