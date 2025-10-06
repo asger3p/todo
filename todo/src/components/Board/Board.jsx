@@ -15,11 +15,11 @@ export default function Board() {
     localStorage.setItem("board", JSON.stringify(lists));
   }, [lists]);
 
-  function handleAddListClick(name) {
-    if (!name.trim()) return;
+  function handleAddListClick(listInput) {
+    if (!listInput.trim()) return;
     setLists([
       ...lists,
-      { id: uuid(), name, tasks: { active: [], completed: [] } },
+      { id: uuid(), name: listInput, tasks: { active: [], completed: [] } },
     ]);
   }
 
@@ -40,7 +40,10 @@ export default function Board() {
           placeholder="New list name"
           value={listInput}
           onChange={setListInput}
-          onAdd={handleAddListClick}
+          onAdd={() => {
+            handleAddListClick(listInput);
+            setListInput("");
+          }}
         />
       </AddListSection>
 

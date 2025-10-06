@@ -19,9 +19,12 @@ export const AddListSection = styled.div`
 
 export const ListsContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
   justify-items: center;
-  width: 100%;
+  padding: 2rem;
+  border-radius: ${(props) => props.theme.borderRadius};
+  width: 95%;
   max-width: 1200px;
+  background-color: ${(props) => props.theme.colors.boardBackground};
 `;

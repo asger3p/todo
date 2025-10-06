@@ -2,11 +2,12 @@ import styled from "styled-components";
 
 const ToDoListSC = styled.div`
   list-style: none;
-  padding: 0.5rem;
+  padding: 1rem;
   margin: 0;
   border-radius: ${(props) => props.theme.borderRadius};
   background-color: ${(props) => props.theme.colors.listBackground};
   position: relative;
+  box-shadow: 0 2px 6px #00000040;
 
   .remove-list-button {
     position: absolute;
