@@ -26,6 +26,14 @@ const ToDoListSC = styled.div`
     padding: 0;
     margin: 0 auto;
     width: 100%;
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: 300px;
+  }
+
+  .add-row {
+    margin-top: auto;
+    padding-top: ${(props) => props.theme.spacing.small};
   }
 `;
 
