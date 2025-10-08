@@ -8,9 +8,9 @@ export default function ToDoList({
   name,
   tasks,
   onRemoveListClick,
-  onAddTask,
-  onToggleTask,
-  onRemoveTask,
+  onAdd,
+  onToggle,
+  onRemove,
 }) {
   const [taskInput, setTaskInput] = useState("");
 
@@ -28,8 +28,8 @@ export default function ToDoList({
           <ToDoItem
             key={task.uuid}
             task={task}
-            onToggleTask={() => onToggleTask(task.uuid)}
-            onRemoveTask={() => onRemoveTask(task.uuid)}
+            onToggle={() => onToggle(task.uuid)}
+            onRemove={() => onRemove(task.uuid)}
           />
         ))}
       </ul>
@@ -39,7 +39,7 @@ export default function ToDoList({
         value={taskInput}
         onChange={setTaskInput}
         onAdd={() => {
-          onAddTask(taskInput);
+          onAdd(taskInput);
           setTaskInput("");
         }}
       />

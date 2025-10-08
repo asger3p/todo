@@ -95,11 +95,9 @@ export default function Board() {
             id={list.id}
             name={list.name}
             tasks={list.tasks}
-            onAddTask={(taskText) => handleAddTaskClick(list.id, taskText)}
-            onToggleTask={(taskId) =>
-              handleToggleTaskCompletion(list.id, taskId)
-            }
-            onRemoveTask={(taskId) => handleRemoveTask(list.id, taskId)}
+            onAdd={(taskText) => handleAddTaskClick(list.id, taskText)}
+            onToggle={(taskId) => handleToggleTaskCompletion(list.id, taskId)}
+            onRemove={(taskId) => handleRemoveTask(list.id, taskId)}
             onTasksChange={(newTasks) => handleTasksChange(list.id, newTasks)}
             onRemoveListClick={() => handleRemoveListClick(list.id)}
           />
