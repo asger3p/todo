@@ -22,9 +22,15 @@ const ToDoItemSC = styled.li`
   align-items: center;
   justify-content: space-between;
   position: relative;
+  cursor: pointer;
 
   margin-left: auto;
   margin-right: auto;
+
+  &:hover {
+    background-color: ${(props) => props.theme.colors.hoverTask};
+    transition: background-color 0.3s;
+  }
 
   .task-text {
     flex: 1;
@@ -34,6 +40,7 @@ const ToDoItemSC = styled.li`
     margin-left: ${(props) => props.theme.spacing.medium};
     transform: scale(1.2);
     cursor: pointer;
+    color: ${(props) => props.theme.colors.primary};
     accent-color: ${(props) => props.theme.colors.primary};
   }
 

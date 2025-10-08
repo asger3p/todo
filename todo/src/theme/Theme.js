@@ -4,6 +4,7 @@ export const theme = {
     secondary: "#3ea063ff",
     buttonHover: "#03eb6cff",
     accent: "#00bcd4",
+    hoverTask: "#2c7146ff",
     completedTask: "#2c714686",
     completedTaskText: "#ffffff7f",
     background: "#1b262c",

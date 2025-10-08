@@ -1,8 +1,23 @@
 import { useState, useEffect } from "react";
 import uuid from "react-uuid";
+import { createPortal } from "react-dom";
+import ToDoItem from "../ToDoItem/ToDoItem";
 import ToDoList from "../ToDoList/ToDoList";
 import { AddListSection, BoardContainer, ListsContainer } from "./BoardSC";
 import AddRow from "../AddRow/AddRow";
+import {
+  DndContext,
+  DragOverlay,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  rectSortingStrategy,
+} from "@dnd-kit/sortable";
 
 export default function Board() {
   const [lists, setLists] = useState(() => {
@@ -10,6 +25,8 @@ export default function Board() {
     return saved ? JSON.parse(saved) : [];
   });
   const [listInput, setListInput] = useState("");
+  const [activeTask, setActiveTask] = useState(null);
+  const sensors = useSensors(useSensor(PointerSensor));
 
   useEffect(() => {
     localStorage.setItem("board", JSON.stringify(lists));
@@ -75,6 +92,85 @@ export default function Board() {
     );
   }
 
+  function handleDragStart(event) {
+    const { active } = event;
+    const task = lists
+      .flatMap((l) => l.tasks)
+      .find((t) => t.uuid === active.id);
+    setActiveTask(task || null);
+  }
+
+  function handleDragEnd(event) {
+    const { active, over } = event;
+    if (!over) return;
+
+    const activeId = active.id;
+    const overId = over.id;
+
+    // --- Reordering whole lists ---
+    const activeListIndex = lists.findIndex((l) => l.id === activeId);
+    const overListIndex = lists.findIndex((l) => l.id === overId);
+
+    if (activeListIndex !== -1 && overListIndex !== -1) {
+      if (activeListIndex !== overListIndex) {
+        setLists((prev) => arrayMove(prev, activeListIndex, overListIndex));
+      }
+      return;
+    }
+
+    // --- Reordering or moving tasks ---
+    const sourceList = lists.find((l) =>
+      l.tasks.some((t) => t.uuid === activeId)
+    );
+    const targetList = lists.find((l) =>
+      l.tasks.some((t) => t.uuid === overId)
+    );
+
+    if (!sourceList || !targetList) return;
+
+    const activeTaskIndex = sourceList.tasks.findIndex(
+      (t) => t.uuid === activeId
+    );
+    const overTaskIndex = targetList.tasks.findIndex((t) => t.uuid === overId);
+
+    // Same list reorder
+    if (sourceList.id === targetList.id) {
+      if (activeTaskIndex === overTaskIndex) return;
+      const reordered = arrayMove(
+        sourceList.tasks,
+        activeTaskIndex,
+        overTaskIndex
+      );
+
+      setLists((prev) =>
+        prev.map((l) =>
+          l.id === sourceList.id ? { ...l, tasks: reordered } : l
+        )
+      );
+      return;
+    }
+
+    // Moving task to another list
+    const movedTask = sourceList.tasks[activeTaskIndex];
+    setLists((prev) =>
+      prev.map((l) => {
+        if (l.id === sourceList.id) {
+          return {
+            ...l,
+            tasks: l.tasks.filter((t) => t.uuid !== activeId),
+          };
+        }
+        if (l.id === targetList.id) {
+          const newTasks = [...l.tasks];
+          newTasks.splice(overTaskIndex + 1, 0, movedTask);
+          return { ...l, tasks: newTasks };
+        }
+        return l;
+      })
+    );
+    setActiveTask(null);
+  }
+
   return (
     <BoardContainer>
       <AddListSection>
@@ -88,21 +184,50 @@ export default function Board() {
           }}
         />
       </AddListSection>
-      <ListsContainer>
-        {lists.map((list) => (
-          <ToDoList
-            key={list.id}
-            id={list.id}
-            name={list.name}
-            tasks={list.tasks}
-            onAdd={(taskText) => handleAddTaskClick(list.id, taskText)}
-            onToggle={(taskId) => handleToggleTaskCompletion(list.id, taskId)}
-            onRemove={(taskId) => handleRemoveTask(list.id, taskId)}
-            onTasksChange={(newTasks) => handleTasksChange(list.id, newTasks)}
-            onRemoveListClick={() => handleRemoveListClick(list.id)}
-          />
-        ))}
-      </ListsContainer>
+
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+        onDragStart={handleDragStart}
+      >
+        <SortableContext
+          items={lists.map((l) => l.id)}
+          strategy={rectSortingStrategy}
+        >
+          <ListsContainer>
+            {lists.map((list) => (
+              <ToDoList
+                key={list.id}
+                id={list.id}
+                name={list.name}
+                tasks={list.tasks}
+                onAdd={(taskText) => handleAddTaskClick(list.id, taskText)}
+                onToggle={(taskId) =>
+                  handleToggleTaskCompletion(list.id, taskId)
+                }
+                onRemove={(taskId) => handleRemoveTask(list.id, taskId)}
+                onTasksChange={(newTasks) =>
+                  handleTasksChange(list.id, newTasks)
+                }
+                onRemoveListClick={() => handleRemoveListClick(list.id)}
+              />
+            ))}
+          </ListsContainer>
+          {createPortal(
+            <DragOverlay>
+              {activeTask ? (
+                <ToDoItem
+                  task={activeTask}
+                  onToggle={() => {}}
+                  onRemove={() => {}}
+                />
+              ) : null}
+            </DragOverlay>,
+            document.body
+          )}
+        </SortableContext>
+      </DndContext>
     </BoardContainer>
   );
 }
