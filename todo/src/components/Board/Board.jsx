@@ -30,6 +30,51 @@ export default function Board() {
     );
   }
 
+  function handleAddTaskClick(listId, taskText) {
+    if (!taskText.trim()) return;
+    setLists((prev) =>
+      prev.map((list) =>
+        list.id === listId
+          ? {
+              ...list,
+              tasks: [
+                ...list.tasks,
+                { uuid: uuid(), text: taskText, completed: false },
+              ],
+            }
+          : list
+      )
+    );
+  }
+
+  function handleToggleTaskCompletion(listId, taskId) {
+    setLists((prev) =>
+      prev.map((list) =>
+        list.id === listId
+          ? {
+              ...list,
+              tasks: list.tasks.map((t) =>
+                t.uuid === taskId ? { ...t, completed: !t.completed } : t
+              ),
+            }
+          : list
+      )
+    );
+  }
+
+  function handleRemoveTask(listId, taskId) {
+    setLists((prev) =>
+      prev.map((list) =>
+        list.id === listId
+          ? {
+              ...list,
+              tasks: list.tasks.filter((t) => t.uuid !== taskId),
+            }
+          : list
+      )
+    );
+  }
+
   return (
     <BoardContainer>
       <AddListSection>
@@ -50,6 +95,11 @@ export default function Board() {
             id={list.id}
             name={list.name}
             tasks={list.tasks}
+            onAddTask={(taskText) => handleAddTaskClick(list.id, taskText)}
+            onToggleTask={(taskId) =>
+              handleToggleTaskCompletion(list.id, taskId)
+            }
+            onRemoveTask={(taskId) => handleRemoveTask(list.id, taskId)}
             onTasksChange={(newTasks) => handleTasksChange(list.id, newTasks)}
             onRemoveListClick={() => handleRemoveListClick(list.id)}
           />

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Title, Wrapper } from "./Title";
-import uuid from "react-uuid";
 import ToDoItem from "../ToDoItem/ToDoItem";
 import ToDoListSC from "./ToDoListSC";
 import AddRow from "../AddRow/AddRow";
@@ -8,31 +7,12 @@ import AddRow from "../AddRow/AddRow";
 export default function ToDoList({
   name,
   tasks,
-  onTasksChange,
   onRemoveListClick,
+  onAddTask,
+  onToggleTask,
+  onRemoveTask,
 }) {
   const [taskInput, setTaskInput] = useState("");
-
-  function handleAddTaskClick(taskText) {
-    if (!taskText.trim()) return;
-    const newTasks = [
-      ...tasks,
-      { uuid: uuid(), text: taskText, completed: false },
-    ];
-    onTasksChange(newTasks);
-  }
-
-  function toggleTaskCompletion(task) {
-    const newTasks = tasks.map((t) =>
-      t.uuid === task.uuid ? { ...t, completed: !t.completed } : t
-    );
-    onTasksChange(newTasks);
-  }
-
-  function removeTask(task) {
-    const newTasks = tasks.filter((t) => t.uuid !== task.uuid);
-    onTasksChange(newTasks);
-  }
 
   return (
     <ToDoListSC>
@@ -48,8 +28,8 @@ export default function ToDoList({
           <ToDoItem
             key={task.uuid}
             task={task}
-            onToggle={() => toggleTaskCompletion(task)}
-            onRemove={() => removeTask(task)}
+            onToggle={() => onToggleTask(task.uuid)}
+            onRemove={() => onRemoveTask(task.uuid)}
           />
         ))}
       </ul>
@@ -59,7 +39,7 @@ export default function ToDoList({
         value={taskInput}
         onChange={setTaskInput}
         onAdd={() => {
-          handleAddTaskClick(taskInput);
+          onAddTask(taskInput);
           setTaskInput("");
         }}
       />

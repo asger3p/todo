@@ -1,16 +1,21 @@
 import { Row, Input, Button } from "./AddRowSC";
 
-export default function AddRow({ value, onChange, onAdd, placeholder }) {
+export default function AddRow({
+  value,
+  onChange,
+  onAdd: onAddTask,
+  placeholder,
+}) {
   return (
     <Row>
       <Input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        onKeyDown={(e) => e.key === "Enter" && onAdd()}
+        onKeyDown={(e) => e.key === "Enter" && onAddTask()}
         placeholder={placeholder}
       />
-      <Button onClick={onAdd}>add_circle</Button>
+      <Button onClick={onAddTask}>add_circle</Button>
     </Row>
   );
 }
