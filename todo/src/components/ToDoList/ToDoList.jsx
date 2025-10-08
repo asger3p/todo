@@ -15,36 +15,22 @@ export default function ToDoList({
 
   function handleAddTaskClick(taskText) {
     if (!taskText.trim()) return;
-    const newTasks = {
+    const newTasks = [
       ...tasks,
-      active: [
-        ...tasks.active,
-        { uuid: uuid(), text: taskText, completed: false },
-      ],
-    };
+      { uuid: uuid(), text: taskText, completed: false },
+    ];
     onTasksChange(newTasks);
   }
 
-  function toggleTaskCompletion(task, fromCompleted = false) {
-    const newTasks = fromCompleted
-      ? {
-          active: [...tasks.active, { ...task, completed: false }],
-          completed: tasks.completed.filter((t) => t.uuid !== task.uuid),
-        }
-      : {
-          active: tasks.active.filter((t) => t.uuid !== task.uuid),
-          completed: [...tasks.completed, { ...task, completed: true }],
-        };
+  function toggleTaskCompletion(task) {
+    const newTasks = tasks.map((t) =>
+      t.uuid === task.uuid ? { ...t, completed: !t.completed } : t
+    );
     onTasksChange(newTasks);
   }
 
-  function removeTask(task, fromCompleted = false) {
-    const newTasks = fromCompleted
-      ? {
-          ...tasks,
-          completed: tasks.completed.filter((t) => t.uuid !== task.uuid),
-        }
-      : { ...tasks, active: tasks.active.filter((t) => t.uuid !== task.uuid) };
+  function removeTask(task) {
+    const newTasks = tasks.filter((t) => t.uuid !== task.uuid);
     onTasksChange(newTasks);
   }
 
@@ -58,23 +44,12 @@ export default function ToDoList({
       </Wrapper>
 
       <ul>
-        {tasks.active.map((task) => (
+        {tasks.map((task) => (
           <ToDoItem
             key={task.uuid}
             task={task}
             onToggle={() => toggleTaskCompletion(task)}
             onRemove={() => removeTask(task)}
-          />
-        ))}
-      </ul>
-
-      <ul>
-        {tasks.completed.map((task) => (
-          <ToDoItem
-            key={task.uuid}
-            task={task}
-            onToggle={() => toggleTaskCompletion(task, true)}
-            onRemove={() => removeTask(task, true)}
           />
         ))}
       </ul>

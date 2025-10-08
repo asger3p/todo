@@ -17,10 +17,7 @@ export default function Board() {
 
   function handleAddListClick(listInput) {
     if (!listInput.trim()) return;
-    setLists([
-      ...lists,
-      { id: uuid(), name: listInput, tasks: { active: [], completed: [] } },
-    ]);
+    setLists([...lists, { id: uuid(), name: listInput, tasks: [] }]);
   }
 
   function handleRemoveListClick(listId) {
