@@ -18,7 +18,11 @@ export default function ToDoList({
     <ToDoListSC>
       <Wrapper>
         <Title>{name}</Title>
-        <button className="remove-list-button" onClick={onRemoveListClick}>
+        <button
+          className="remove-list-button"
+          onClick={onRemoveListClick}
+          aria-label={`Remove list ${name}`}
+        >
           x
         </button>
       </Wrapper>
@@ -38,7 +42,7 @@ export default function ToDoList({
         placeholder="Enter task"
         value={taskInput}
         onChange={setTaskInput}
-        onAddTask={() => {
+        onAdd={() => {
           onAddTask(taskInput);
           setTaskInput("");
         }}
