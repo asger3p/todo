@@ -18,11 +18,7 @@ export default function ToDoList({
     <ToDoListSC>
       <Wrapper>
         <Title>{name}</Title>
-        <button
-          className="remove-list-button"
-          onClick={onRemoveListClick}
-          aria-label={`Remove list ${name}`}
-        >
+        <button className="remove-list-button" onClick={onRemoveListClick}>
           x
         </button>
       </Wrapper>
