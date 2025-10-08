@@ -1,11 +1,6 @@
 import { Row, Input, Button } from "./AddRowSC";
 
-export default function AddRow({
-  value,
-  onChange,
-  onAdd: onAddTask,
-  placeholder,
-}) {
+export default function AddRow({ value, onChange, onAddTask, placeholder }) {
   return (
     <Row>
       <Input

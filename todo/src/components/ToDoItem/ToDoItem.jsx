@@ -1,6 +1,6 @@
 import ToDoItemSC from "./ToDoItemSC";
 
-export default function ToDoItem({ task, onToggle, onRemove }) {
+export default function ToDoItem({ task, onToggleTask, onRemove }) {
   return (
     <ToDoItemSC $completed={task.completed}>
       {task.text}
@@ -8,7 +8,7 @@ export default function ToDoItem({ task, onToggle, onRemove }) {
         className="checkbox"
         type="checkbox"
         checked={task.completed}
-        onChange={onToggle}
+        onChange={onToggleTask}
       />
       <button className="remove-task-button" onClick={onRemove}>
         x

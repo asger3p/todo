@@ -28,8 +28,8 @@ export default function ToDoList({
           <ToDoItem
             key={task.uuid}
             task={task}
-            onToggle={() => onToggleTask(task.uuid)}
-            onRemove={() => onRemoveTask(task.uuid)}
+            onToggleTask={() => onToggleTask(task.uuid)}
+            onRemoveTask={() => onRemoveTask(task.uuid)}
           />
         ))}
       </ul>
@@ -38,7 +38,7 @@ export default function ToDoList({
         placeholder="Enter task"
         value={taskInput}
         onChange={setTaskInput}
-        onAdd={() => {
+        onAddTask={() => {
           onAddTask(taskInput);
           setTaskInput("");
         }}
